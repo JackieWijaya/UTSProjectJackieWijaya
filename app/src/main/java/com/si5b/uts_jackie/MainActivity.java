@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button btnDaftar;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setTitle("Layout Pertama");
+        getSupportActionBar().setTitle("UTS-Jackie");
 
         btnDaftar = findViewById(R.id.btn_daftar);
         etNamaLengkap = findViewById(R.id.et_nama_lengkap);
@@ -35,13 +36,31 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String namaLengkap = etNamaLengkap.getText().toString();
                 String nomorPendaftaran = etNomorPendaftaran.getText().toString();
+                String jalurPendaftaran = spJalurPendaftaran.getSelectedItem().toString();
+                Boolean konfirmasiDaftar = cbKonfirmasiDaftar.isChecked();
 
                 if (namaLengkap.trim().equals("")){
                     etNamaLengkap.setError("Nama Harus Diisi");
                 }
 
-                else{
-                    Intent daftar = new
+                else if (nomorPendaftaran.trim().equals("")){
+                    etNomorPendaftaran.setError("Nomor Harus Diisi");
+                }
+
+                else if (jalurPendaftaran.trim().equals("Jalur Pendaftaran")){
+                    Toast.makeText(MainActivity.this, "Pilih Jalur Pendaftaran", Toast.LENGTH_SHORT).show();
+                }
+
+                else if (konfirmasiDaftar == Boolean.FALSE){
+                    Toast.makeText(MainActivity.this, "Ceklist Konfirmasi Daftar", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+                    Intent pindah = new Intent(MainActivity.this, SecondActivity.class);
+                    pindah.putExtra("xNamaLengkap", namaLengkap);
+                    pindah.putExtra("xNomorPendaftaran", nomorPendaftaran);
+                    pindah.putExtra("xJalurPendaftaran", jalurPendaftaran);
+                    startActivity(pindah);
                 }
             }
         });
